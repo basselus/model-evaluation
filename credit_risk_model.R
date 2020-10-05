@@ -65,8 +65,6 @@ pairs.panels(credit[,c(2,5,8,9,10,13,15)])
 
 # Possible correlation between amount and month loan duration
 
-
-
 #***************************************************************************
 #*********************** Split data between train and test sets ************
 #***************************************************************************
@@ -83,7 +81,7 @@ test<-credit[-train_rows_2,]
 #checking proportions across train and test
 prop.table(table(train$default))
 prop.table(table(test$default))
-
+table(train$default)
 
 #***************************************************************************
 #*********************** Identify driving variables ************************
@@ -91,5 +89,16 @@ prop.table(table(test$default))
 #***************************************************************************
 
 
+#training a model : #removing split feature and dependent variable
+
+creditLogReg <- glm(train$default ~ ., data = train[,c(-17,-18)], family = "binomial" ) 
+summary(creditLogReg)
+
+# use the confint function to obtain confidence intervals for the coefficient estimates
+
+confint(creditLogReg)
 
 
+# using standard errors
+
+confint.default(creditLogReg)
